@@ -8,6 +8,10 @@ import arcs.commands.customer.ListCustomerCommand;
 import arcs.commands.flightbooking.BookCommand;
 import arcs.commands.flightbooking.DeleteBookingCommand;
 import arcs.commands.flightbooking.ListBookingCommand;
+import arcs.commands.mealreservation.AddMealReservationCommand;
+import arcs.commands.mealreservation.DeleteMealReservationCommand;
+import arcs.commands.mealreservation.FindMealReservationCommand;
+import arcs.commands.mealreservation.ListMealReservationsCommand;
 import arcs.commands.menuitem.FindMenuItemTypeCommand;
 import arcs.commands.menuitem.FindMenuItemNameCommand;
 import arcs.commands.menuitem.AddMenuItemCommand;
@@ -20,13 +24,25 @@ import arcs.commands.route.ListRouteCommand;
 import arcs.commands.Command;
 import arcs.commands.ExitCommand;
 import arcs.commands.UndefinedCommand;
+<<<<<<< HEAD
 import arcs.commands.staff.AddStaffCommand;
 import arcs.commands.staff.DeleteStaffCommand;
 import arcs.commands.staff.ListStaffCommand;
+=======
+import arcs.data.exception.ArcsException;
+>>>>>>> 58f33f90fd6be5562590c9407fb4e0a4ffd13771
 
 public class Parser {
 
 
+    /**
+     * Parses the user input string into a command.
+     * The command type is determined by the command word specified in the input string.
+     * The command word is the first single word in the input string.
+     *
+     * @param userInput full user input string
+     * @return a command.
+     */
     public Command parseCommand(String userInput) {
 
 
@@ -50,10 +66,15 @@ public class Parser {
             command = prepareFindRouteCommand(argumentLine);
             break;
         case AddMenuItemCommand.COMMAND_WORD:
-            command = prepareAddMenuItem(argumentLine);
-            break;
+            try {
+                command = MenuItemParser.prepareAddMenuItem(argumentLine);
+                break;
+            } catch (ArcsException e) {
+                command = new UndefinedCommand(e.getMessage());
+                break;
+            }
         case DeleteMenuItemCommand.COMMAND_WORD:
-            command = prepareDeleteMenuItemCommand(argumentLine);
+            command = MenuItemParser.prepareDeleteMenuItemCommand(argumentLine);
             break;
         case ListMenuItemsCommand.COMMAND_WORD:
             command = new ListMenuItemsCommand();
@@ -88,6 +109,7 @@ public class Parser {
         case DeleteBookingCommand.COMMAND_WORD:
             command = FlightBookingParser.prepareDeleteBookingCommand(argumentLine);
             break;
+<<<<<<< HEAD
         case AddStaffCommand.COMMAND_WORD:
             command = StaffParser.prepareAddStaffCommand(argumentLine);;
             break;
@@ -96,6 +118,24 @@ public class Parser {
             break;
         case ListStaffCommand.COMMAND_WORD:
             command = new ListStaffCommand();;
+=======
+        case AddMealReservationCommand.COMMAND_WORD:
+            try {
+                command = MealReservationParser.prepareMealReservationCommand(argumentLine);
+                break;
+            } catch (ArcsException e) {
+                command = new UndefinedCommand(e.getMessage());
+                break;
+            }
+        case FindMealReservationCommand.COMMAND_WORD:
+            command = MealReservationParser.prepareFindMealReservation(argumentLine);
+            break;
+        case DeleteMealReservationCommand.COMMAND_WORD:
+            command = MealReservationParser.prepareDeleteMealReservation(argumentLine);
+            break;
+        case ListMealReservationsCommand.COMMAND_WORD:
+            command = new ListMealReservationsCommand();
+>>>>>>> 58f33f90fd6be5562590c9407fb4e0a4ffd13771
             break;
         default:
             command = new UndefinedCommand();
@@ -108,6 +148,13 @@ public class Parser {
         if (argumentLine == null || argumentLine.isEmpty()) {
             return new AddRouteCommand(null, null, null, null, null, 0);
         }
+        final String fid = "fid";
+        final String fd = "fd";
+        final String ft = "ft";
+        final String d = "d";
+        final String s = "s";
+        final String c = "c";
+        final String invalid_capacity = "The capacity must be a positive integer.";
         String[] args = argumentLine.split(" ");
         String flightId = null;
         String date = null;
@@ -127,23 +174,30 @@ public class Parser {
             String field = argSplit[0].trim();
             String value = argSplit[1].trim();
             switch (field) {
-            case "fid":
+            case fid:
                 flightId = value;
                 break;
-            case "fd":
+            case fd:
                 date = value;
                 break;
-            case "ft":
+            case ft:
                 time = value;
                 break;
-            case "d":
+            case d:
                 to = value;
                 break;
-            case "s":
+            case s:
                 from = value;
                 break;
-            case "c":
-                capacity = Integer.parseInt(value);
+            case c:
+                try {
+                    capacity = Integer.parseInt(value);
+                } catch (NumberFormatException e) {
+                    return new UndefinedCommand(invalid_capacity);
+                }
+                if (capacity < 0) {
+                    return new UndefinedCommand(invalid_capacity);
+                }
                 break;
             default:
                 break;
@@ -152,6 +206,12 @@ public class Parser {
         return new AddRouteCommand(flightId, date, time, from, to, capacity);
     }
 
+    /**
+     * Parses the user input string into a DeleteRouteCommand.
+     *
+     * @param argumentLine user input string
+     * @return a DeleteRouteCommand
+     */
     public Command prepareDeleteRouteCommand(String argumentLine) {
         if (argumentLine == null || argumentLine.isEmpty()) {
             return new UndefinedCommand("Index is not specified");
@@ -167,10 +227,20 @@ public class Parser {
         return result;
     }
 
+    /**
+     * Parses the user input string into a FindRouteCommand.
+     *
+     * @param argumentLine user input string
+     * @return a FindRouteCommand.
+     */
     public Command prepareFindRouteCommand(String argumentLine) {
         if (argumentLine == null || argumentLine.isEmpty()) {
             return new FindRouteCommand(null, null, null, null);
         }
+        final String fd = "fd";
+        final String ft = "ft";
+        final String d = "d";
+        final String s = "s";
         String[] args = argumentLine.split(" ");
         String date = null;
         String to = null;
@@ -189,16 +259,16 @@ public class Parser {
             String field = argSplit[0].trim();
             String value = argSplit[1].trim();
             switch (field) {
-            case "fd":
+            case fd:
                 date = value;
                 break;
-            case "ft":
+            case ft:
                 time = value;
                 break;
-            case "d":
+            case d:
                 to = value;
                 break;
-            case "s":
+            case s:
                 from = value;
                 break;
             default:
@@ -206,59 +276,6 @@ public class Parser {
             }
         }
         return new FindRouteCommand(date, to, from, time);
-    }
-
-    public Command prepareAddMenuItem(String argumentLine) {
-        if (argumentLine == null || argumentLine.isEmpty()) {
-            return new AddMenuItemCommand(null,null,null);
-        }
-        String[] args = argumentLine.split(" ");
-        String menuItemName = null;
-        String menuItemType = null;
-        String menuItemPrice = null;
-        for (String arg: args) {
-            arg = arg.trim();
-            if (arg.isEmpty()) {
-                continue;
-            }
-            String[] argSplit = arg.split("/", 2);
-            if (argSplit.length < 2) {
-                continue;
-            }
-            String field = argSplit[0].trim();
-            String value = argSplit[1].trim();
-            switch (field) {
-            case "name":
-                menuItemName = value;
-                //replace underscore separator with space
-                menuItemName = menuItemName.replace("_", " ");
-                break;
-            case "type":
-                menuItemType = value;
-                break;
-            case "price":
-                menuItemPrice = value;
-                break;
-            default:
-                break;
-            }
-        }
-        System.out.println("here..");
-        return new AddMenuItemCommand(menuItemName,menuItemType,menuItemPrice);
-    }
-
-    public Command prepareDeleteMenuItemCommand(String argumentLine) {
-        if (argumentLine == null || argumentLine.isEmpty()) {
-            return new UndefinedCommand("Index is not specified");
-        }
-        Command result;
-        try {
-            int index = Integer.parseInt(argumentLine);
-            result = new DeleteMenuItemCommand(index);
-        } catch (NumberFormatException e) {
-            result = new UndefinedCommand("Index should be an integer.");
-        }
-        return result;
     }
 
 }
