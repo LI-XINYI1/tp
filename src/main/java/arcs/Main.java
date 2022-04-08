@@ -32,12 +32,10 @@ public class Main {
     private CustomerManager customerManager;
     private CustomerFileManager customerFileManager;
     private StaffManager staffManager;
-<<<<<<< HEAD
     private StaffFileManager staffFileManager;
-=======
     private MealReservationManager mealReservationManager;
     private MealReservationFileManager mealReservationFileManager;
->>>>>>> 58f33f90fd6be5562590c9407fb4e0a4ffd13771
+
     /**
      * Parser object.
      */
@@ -59,12 +57,9 @@ public class Main {
         routeFileManager = new RouteFileManager();
         customerFileManager = new CustomerFileManager();
         flightBookingFileManager = new FlightBookingFileManager();
-<<<<<<< HEAD
         staffFileManager = new StaffFileManager();
-=======
         menuItemFileManager = new MenuItemFileManager();
         mealReservationFileManager = new MealReservationFileManager();
->>>>>>> 58f33f90fd6be5562590c9407fb4e0a4ffd13771
         loadData();
     }
 
@@ -101,24 +96,17 @@ public class Main {
             menuItemManager = new MenuItemManager(menuItemFileManager.loadData());
             customerManager = new CustomerManager(customerFileManager.loadData());
             flightBookingManager = new FlightBookingManager(flightBookingFileManager.loadData());
-<<<<<<< HEAD
             staffManager = new StaffManager(staffFileManager.loadData());
-=======
             mealReservationManager = new MealReservationManager(mealReservationFileManager.loadData(),
                     flightBookingManager);
-
->>>>>>> 58f33f90fd6be5562590c9407fb4e0a4ffd13771
         } catch (IOException e) {
             mainUi.displayMessages(e.getMessage());
             routeManager = new RouteManager();
             customerManager = new CustomerManager();
             flightBookingManager = new FlightBookingManager();
-<<<<<<< HEAD
             staffManager = new StaffManager();
-=======
             menuItemManager = new MenuItemManager();
             mealReservationManager = new MealReservationManager();
->>>>>>> 58f33f90fd6be5562590c9407fb4e0a4ffd13771
         }
     }
 
@@ -130,12 +118,9 @@ public class Main {
             routeFileManager.saveData(routeManager.getAllRoutes());
             customerFileManager.saveData(customerManager.getAllCustomers());
             flightBookingFileManager.saveData(flightBookingManager.getAllFlightBookings());
-<<<<<<< HEAD
             staffFileManager.saveData(staffManager.getAllStaffs());
-=======
             menuItemFileManager.saveData(menuItemManager.getAllMenuItems());
             mealReservationFileManager.saveData(mealReservationManager.getAllMealReservations());
->>>>>>> 58f33f90fd6be5562590c9407fb4e0a4ffd13771
         } catch (IOException e) {
             mainUi.displayMessages(e.getMessage());
         }

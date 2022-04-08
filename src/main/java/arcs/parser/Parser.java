@@ -24,13 +24,10 @@ import arcs.commands.route.ListRouteCommand;
 import arcs.commands.Command;
 import arcs.commands.ExitCommand;
 import arcs.commands.UndefinedCommand;
-<<<<<<< HEAD
 import arcs.commands.staff.AddStaffCommand;
 import arcs.commands.staff.DeleteStaffCommand;
 import arcs.commands.staff.ListStaffCommand;
-=======
 import arcs.data.exception.ArcsException;
->>>>>>> 58f33f90fd6be5562590c9407fb4e0a4ffd13771
 
 public class Parser {
 
@@ -109,16 +106,15 @@ public class Parser {
         case DeleteBookingCommand.COMMAND_WORD:
             command = FlightBookingParser.prepareDeleteBookingCommand(argumentLine);
             break;
-<<<<<<< HEAD
         case AddStaffCommand.COMMAND_WORD:
-            command = StaffParser.prepareAddStaffCommand(argumentLine);;
+            command = StaffParser.prepareAddStaffCommand(argumentLine);
             break;
         case DeleteStaffCommand.COMMAND_WORD:
-            command = StaffParser.prepareDeleteStaffCommand(argumentLine);;
+            command = StaffParser.prepareDeleteStaffCommand(argumentLine);
             break;
         case ListStaffCommand.COMMAND_WORD:
-            command = new ListStaffCommand();;
-=======
+            command = new ListStaffCommand();
+            break;
         case AddMealReservationCommand.COMMAND_WORD:
             try {
                 command = MealReservationParser.prepareMealReservationCommand(argumentLine);
@@ -135,7 +131,6 @@ public class Parser {
             break;
         case ListMealReservationsCommand.COMMAND_WORD:
             command = new ListMealReservationsCommand();
->>>>>>> 58f33f90fd6be5562590c9407fb4e0a4ffd13771
             break;
         default:
             command = new UndefinedCommand();
