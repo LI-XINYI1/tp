@@ -28,10 +28,7 @@ import arcs.commands.staff.AddStaffCommand;
 import arcs.commands.staff.DeleteStaffCommand;
 import arcs.commands.staff.ListStaffCommand;
 import arcs.data.exception.ArcsException;
-<<<<<<< HEAD
-=======
 
->>>>>>> 3c13398c406a14d951cb7d4c6dfcbafa7d95304c
 
 public class Parser {
 
@@ -118,10 +115,7 @@ public class Parser {
             break;
         case ListStaffCommand.COMMAND_WORD:
             command = new ListStaffCommand();
-<<<<<<< HEAD
             break;
-=======
->>>>>>> 3c13398c406a14d951cb7d4c6dfcbafa7d95304c
         case AddMealReservationCommand.COMMAND_WORD:
             try {
                 command = MealReservationParser.prepareMealReservationCommand(argumentLine);

@@ -35,11 +35,6 @@ public class Main {
     private StaffFileManager staffFileManager;
     private MealReservationManager mealReservationManager;
     private MealReservationFileManager mealReservationFileManager;
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> 3c13398c406a14d951cb7d4c6dfcbafa7d95304c
     /**
      * Parser object.
      */
@@ -103,11 +98,6 @@ public class Main {
             staffManager = new StaffManager(staffFileManager.loadData());
             mealReservationManager = new MealReservationManager(mealReservationFileManager.loadData(),
                     flightBookingManager);
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 3c13398c406a14d951cb7d4c6dfcbafa7d95304c
         } catch (IOException e) {
             mainUi.displayMessages(e.getMessage());
             routeManager = new RouteManager();
